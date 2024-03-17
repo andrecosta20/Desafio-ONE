@@ -9,12 +9,24 @@ document.addEventListener('DOMContentLoaded', function () {
     var conteudoMensagens = document.querySelector('.conteudo__principal__mensagens');
     var logoAlura = document.querySelector('.logo-alura');
 
+    // Animação typewriter 
+    const textoPlaceholder = "Digite seu texto";
+    let i = 0;
+    function typeWriter() {
+        if (i < textoPlaceholder.length) {
+            campoTexto.placeholder += textoPlaceholder.charAt(i);
+            i++;
+            setTimeout(typeWriter, 150);
+        }
+    }
+    typeWriter();
+
     // Recarregar a página ao clicar na logo
     logoAlura.addEventListener('click', function () {
         location.reload();
     });
 
-    // Função que verifica se o campo de texto está vazio para não habilitar os botões sem necessidade
+    // Função que verifica se o campo de texto está vazio
     function verificarTexto() {
         var textoNoCampo = campoTexto.value.trim();
         btnCriptografar.disabled = textoNoCampo === '';
@@ -25,16 +37,12 @@ document.addEventListener('DOMContentLoaded', function () {
     campoTexto.addEventListener('input', function () {
         this.value = this.value.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
         this.value = this.value.replace(/[^\w\s]/gi, "");
-
-
         verificarTexto();
     });
 
     btnCriptografar.addEventListener('click', function () {
         if (!this.disabled) {
-
             var textoCriptografado = campoTexto.value;
-
             // Criptografa o texto
             var textoModificado = textoCriptografado.replace(/e/g, "enter")
                 .replace(/i/g, "imes")
@@ -44,7 +52,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             textoDestino.textContent = textoModificado;
             textoDestino.classList.add('ativo');
-
             conteudoAreaCopia.style.display = 'block';
             conteudoMensagens.style.display = 'none';
         }
@@ -52,9 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     btnDescriptografar.addEventListener('click', function () {
         if (!this.disabled) {
-
             var textoDescriptografado = campoTexto.value;
-
             // Descriptografa o texto
             var textoModificado = textoDescriptografado.replace(/enter/g, "e")
                 .replace(/imes/g, "i")
@@ -64,7 +69,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             textoDestino.textContent = textoModificado;
             textoDestino.classList.add('ativo');
-
             conteudoAreaCopia.style.display = 'block';
             conteudoMensagens.style.display = 'none';
         }
@@ -79,6 +83,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Chama a função de verificação para configurar o estado dos botões
+    // Chama a função de verificação inicial para configurar o estado dos botões
     verificarTexto();
 });

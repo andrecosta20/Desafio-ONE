@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (i < textoPlaceholder.length) {
             campoTexto.placeholder += textoPlaceholder.charAt(i);
             i++;
-            setTimeout(typeWriter, 150);
+            setTimeout(typeWriter, 130);
         }
     }
     typeWriter();
